@@ -30,7 +30,7 @@ public class TFIDFDriver extends Configured implements Tool {
 
         Job bodyCounterJob = Job.getInstance(conf, "BodyCounterJob");
         bodyCounterJob.setJarByClass(TFIDFDriver.class);
-        bodyCounterJob.setMapperClass(BodyToTokenMapper.class);
+        bodyCounterJob.setMapperClass(BodyCounterMapper.class);
         bodyCounterJob.setReducerClass(BodyCounterReducer.class);
         bodyCounterJob.setOutputKeyClass(Text.class);
         bodyCounterJob.setOutputValueClass(IntWritable.class);
