@@ -6,9 +6,10 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class TokenToFrquencyReducer extends Reducer<Text, IntWritable, Text, IntWritable>{
+public class TokenToFrequencyReducer extends Reducer<Text, IntWritable, Text, IntWritable>{
 
-    public void reduce(Text key, Iterable<IntWritable> values, Reducer.Context con) throws IOException, InterruptedException
+    @Override
+    protected void reduce(Text key, Iterable<IntWritable> values,  Context con) throws IOException, InterruptedException
     {
         int sum = 0;
         for(IntWritable value : values)

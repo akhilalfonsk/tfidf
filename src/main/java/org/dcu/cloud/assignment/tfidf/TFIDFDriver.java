@@ -26,7 +26,7 @@ public class TFIDFDriver extends Configured implements Tool {
 
         j.setJarByClass(TFIDFDriver.class);
         j.setMapperClass(BodyToTokenMapper.class);
-        j.setReducerClass(TokenToFrquencyReducer.class);
+        j.setReducerClass(TokenToFrequencyReducer.class);
 
         j.setOutputKeyClass(Text.class);
         j.setOutputValueClass(IntWritable.class);
