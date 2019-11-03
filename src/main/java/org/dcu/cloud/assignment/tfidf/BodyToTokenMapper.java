@@ -14,7 +14,7 @@ public class BodyToTokenMapper extends Mapper<LongWritable, Text, Text, IntWrita
             line=line.substring(line.indexOf(",")+1);
             String user = line.substring(0,line.indexOf(","));
             String body = line.substring(line.indexOf(",")+1);
-            for (String word : body.split("(?:,<>\\s*)+")) {
+            for (String word : body.split("[^a-zA-Z0-9']+")) {
                 word = word.trim();
                 if (!word.isEmpty()) {
                     Text outputKey = new Text(new Text(user+"-"+id+"-"+word));
