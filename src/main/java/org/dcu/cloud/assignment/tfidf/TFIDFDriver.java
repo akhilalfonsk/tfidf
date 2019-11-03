@@ -18,7 +18,7 @@ import org.apache.hadoop.util.ToolRunner;
 public class TFIDFDriver extends Configured implements Tool {
     private static final Log log = LogFactory.getLog(TFIDFDriver.class);
 
-    private static final String documentCollectionInput="data/touserpost.csv";
+    private static final String documentCollectionInput="data/topuserpost.csv";
     private static final String postCountPath="data/output/postcount";
     private static final String postWordCountPerDoc="data/output/wordcountperdoc";
     private static final String postWordFrequencyAcrossDoc="data/output/wordfrequency";
@@ -42,7 +42,9 @@ public class TFIDFDriver extends Configured implements Tool {
         if (hdfs.exists(new Path(postCountPath)))
             hdfs.delete(new Path(postCountPath), true);
 
-        return(bodyCounterJob.waitForCompletion(true) ? 0 : 1);
+        int returnCode=bodyCounterJob.waitForCompletion(true) ? 0 : 1;
+        returnCode=wordFrequencyJob();
+        return returnCode;
     }
 
     public static void main(String[] args) throws Exception{
@@ -51,6 +53,7 @@ public class TFIDFDriver extends Configured implements Tool {
     }
 
     public int wordFrequencyJob() throws Exception{
+
         Configuration conf = new Configuration();
         Job wordFrequencyCounterJob = Job.getInstance(conf, "WordFrequencyCounterJob");
         wordFrequencyCounterJob.setJarByClass(TFIDFDriver.class);
