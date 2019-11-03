@@ -8,35 +8,33 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-import org.apache.hive.hcatalog.mapreduce.HCatInputFormat;
 
 public class TFIDFDriver extends Configured implements Tool {
-    private static final Log log = LogFactory.getLog( TFIDFDriver.class );
+    private static final Log log = LogFactory.getLog(TFIDFDriver.class);
 
-    public int run( String[] args ) throws Exception{
-        Configuration conf = new Configuration();
-        Job job = new Job(conf, "TFIDFJob");
-        String[] files=new GenericOptionsParser(conf,args).getRemainingArgs();
-        Path output=new Path(files[0]);
+    public int run(String[] args) throws Exception {
+        Configuration c = new Configuration();
+        String[] files = new GenericOptionsParser(c, args).getRemainingArgs();
+        Path input = new Path(files[0]);
+        Path output = new Path(files[1]);
+        Job j = new Job(c, "TFIDF");
 
-        job.setJarByClass(TFIDFDriver.class);
-        job.setMapperClass(TFIDFMapper.class);
-        job.setReducerClass(TFIDFReducer.class);
+        j.setJarByClass(TFIDFDriver.class);
+        j.setMapperClass(BodyToTokenMapper.class);
+        j.setReducerClass(TokenToFrquencyReducer.class);
 
-        HCatInputFormat.setInput(job, "default", "posts");
-        job.setInputFormatClass(HCatInputFormat.class);
-        job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(IntWritable.class);
+        j.setOutputKeyClass(Text.class);
+        j.setOutputValueClass(IntWritable.class);
 
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
-        FileOutputFormat.setOutputPath(job, output);
+        FileInputFormat.addInputPath(j, input);
+        FileOutputFormat.setOutputPath(j, output);
 
-        return (job.waitForCompletion(true)? 0:1);
+        return(j.waitForCompletion(true) ? 0 : 1);
     }
 
     public static void main(String[] args) throws Exception{
