@@ -19,11 +19,8 @@ public class Utility {
     public static Integer getTotalPostByUser(Configuration conf, String userId) throws Exception{
         FileSystem hdfs = FileSystem.get(conf);
         Integer count=null;
-        try {
-            Path pt=new Path(DATA_OUTPUT_POSTCOUNT);//Location of file in HDFS
-            BufferedReader reader=new BufferedReader(new InputStreamReader(hdfs.open(pt)));
+        try (BufferedReader reader=new BufferedReader(new InputStreamReader(hdfs.open(new Path(DATA_OUTPUT_POSTCOUNT))))){
             String line = reader.readLine();
-
             while (line != null) {
                 String user=line.split("\\s+")[0];
                 if(userId.equalsIgnoreCase(user.trim())){
@@ -34,7 +31,6 @@ public class Utility {
                 }
                 line = reader.readLine();
             }
-            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,11 +40,8 @@ public class Utility {
     public static Integer getFrequencyOfThisWordAcrossWholePostsByUser(Configuration conf, String userId, String word) throws Exception{
         FileSystem hdfs = FileSystem.get(conf);
         Integer count=null;
-        try {
-            Path pt=new Path(DATA_OUTPUT_DOCUMENTFREQUENCY);//Location of file in HDFS
-            BufferedReader reader=new BufferedReader(new InputStreamReader(hdfs.open(pt)));
+        try (BufferedReader reader=new BufferedReader(new InputStreamReader(hdfs.open(new Path(DATA_OUTPUT_DOCUMENTFREQUENCY))))){
             String line = reader.readLine();
-
             while (line != null) {
                 String userWord=line.split("\\s+")[0];
                 String userStr=userWord.split("-")[0];
@@ -61,7 +54,6 @@ public class Utility {
                 }
                 line = reader.readLine();
             }
-            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
