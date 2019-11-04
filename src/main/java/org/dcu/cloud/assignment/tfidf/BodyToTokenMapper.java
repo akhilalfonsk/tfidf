@@ -17,7 +17,7 @@ public class BodyToTokenMapper extends Mapper<LongWritable, Text, Text, IntWrita
             String [] totalWords=body.split("[^a-zA-Z0-9']+");
             for (String word :totalWords ) {
                 word = word.trim();
-                if (!word.isEmpty()) {
+                if (!word.isEmpty() & word.length()>1) {
                     Text outputKey = new Text(new Text(user+"-"+id+"-"+totalWords.length+"-"+word));
                     IntWritable outputValue = new IntWritable(1);
                     con.write(outputKey, outputValue);

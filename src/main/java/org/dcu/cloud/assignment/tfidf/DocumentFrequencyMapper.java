@@ -16,11 +16,11 @@ public class DocumentFrequencyMapper extends Mapper<LongWritable, Text, Text, In
             line=line.substring(line.indexOf(",")+1);
             String user = line.substring(0,line.indexOf(","));
             String body = line.substring(line.indexOf(",")+1);
-            String [] totalWords=body.split("[^a-zA-Z0-9']+");
+            String [] totalWords=body.split("[^a-zA-Z0-9]+");
             Set<String> uniqueWords=new HashSet<>();
             for (String word :totalWords) {
                 word = word.trim();
-                if (!word.isEmpty()) {
+                if (!word.isEmpty() & word.length()>1) {
                      uniqueWords.add(word);
                 }
             }
