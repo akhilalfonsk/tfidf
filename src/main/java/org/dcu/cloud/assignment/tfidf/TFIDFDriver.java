@@ -50,7 +50,7 @@ public class TFIDFDriver extends Configured implements Tool {
             hdfs.delete(new Path(perUserTFIDF), true);
 
         returnCode=tfidfCalculator.waitForCompletion(true) ? 0 : 1;
-        Utility.getFrequencyOfThisWord(conf);
+       // Utility.getFrequencyOfThisWord(conf);
         return returnCode;
     }
 
