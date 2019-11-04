@@ -49,7 +49,7 @@ public class TFIDFTop10TermsPerUserReducer extends Reducer<Text, DoubleWritable,
     protected void cleanup(Context context) throws IOException, InterruptedException {
         for (Map.Entry<String, TreeMap<BigDecimal, String>> userEntry : top10WordsForEachUser.entrySet()) {
             for (Map.Entry<BigDecimal, String> wordEntry : userEntry.getValue().entrySet()) {
-                context.write(new Text(userEntry.getKey() + "," + wordEntry.getValue()), new DoubleWritable(wordEntry.getKey().doubleValue()));
+                context.write(new Text(userEntry.getKey() + "," + wordEntry.getValue()+","), new DoubleWritable(wordEntry.getKey().doubleValue()));
             }
         }
     }
