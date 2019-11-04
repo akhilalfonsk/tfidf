@@ -9,8 +9,9 @@ import org.apache.hadoop.mapreduce.Reducer;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
-public class TFIDFWeightReducer extends Reducer<Text, DoubleWritable, Text, IntWritable>{
-    private DecimalFormat df = new DecimalFormat("###.########");;
+public class TFIDFWeightReducer extends Reducer<Text, DoubleWritable, Text, Text>{
+    private DecimalFormat df = new DecimalFormat("###.########");
+
     @Override
     protected void reduce(Text key, Iterable<DoubleWritable> values,  Context con) throws IOException, InterruptedException
     {
@@ -19,7 +20,7 @@ public class TFIDFWeightReducer extends Reducer<Text, DoubleWritable, Text, IntW
         {
             sum+=value.get();
         }
-        String newResultRow=key.toString()+","+df.format(sum)+",";
-        con.write(new Text(newResultRow), new IntWritable(0));
+        //String newResultRow=key.toString()+","+df.format(sum)+",";
+        con.write(key, new Text(df.format(sum)));
     }
 }
