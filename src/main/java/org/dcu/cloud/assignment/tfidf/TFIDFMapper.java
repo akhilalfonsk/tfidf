@@ -20,7 +20,7 @@ public class TFIDFMapper extends Mapper<LongWritable, Text, Text, DoubleWritable
             int wordCountInThisPost=Integer.valueOf(linePartSecond);
             double tfIdfForThisWordInThisDocument=calculateTFIDFForCurrentWordWrtDocument(wordCountInThisPost,totalWordsInThisPost,frequencyOfThisWordAcrossWholePostsByUser,totalPostByUser);
 
-            Text outputKey = new Text(userId+","+word+",");
+            Text outputKey = new Text(userId+"-"+word);
             DoubleWritable outputValue = new DoubleWritable(tfIdfForThisWordInThisDocument);
             con.write(outputKey, outputValue);
         } catch (Exception e) {

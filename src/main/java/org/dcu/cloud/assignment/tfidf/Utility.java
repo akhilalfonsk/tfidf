@@ -91,7 +91,7 @@ public class Utility {
                 int wordCountInThisPost=Integer.valueOf(linePartSecond);
                 double tfIdfForThisWordInThisDocument=calculateTFIDFForCurrentWordWrtDocument(wordCountInThisPost,totalWordsInThisPost,frequencyOfThisWordAcrossWholePostsByUser,totalPostByUser);
 
-                Text outputKey = new Text(new Text(userId+","+word+","));
+                Text outputKey = new Text(userId+","+word+",");
                 DoubleWritable outputValue = new DoubleWritable(tfIdfForThisWordInThisDocument);
                 System.out.println("UserId:"+userId+" Word:"+word+" TotalWordCount:"+totalWordsInThisPost+" TFIDF:"+tfIdfForThisWordInThisDocument);
                 line = reader.readLine();
