@@ -41,7 +41,7 @@ public class TFIDFDriver extends Configured implements Tool {
         tfidfCalculator.setMapOutputValueClass(DoubleWritable.class);
         tfidfCalculator.setOutputKeyClass(Text.class);
         tfidfCalculator.setOutputValueClass(Text.class);
-        tfidfCalculator.setNumReduceTasks(1);
+        //tfidfCalculator.setNumReduceTasks(1);
         FileInputFormat.addInputPath(tfidfCalculator, new Path(postWordCountPerDocOutPut));
         FileOutputFormat.setOutputPath(tfidfCalculator, new Path(perUserTFIDF));
 

@@ -21,8 +21,7 @@ public class Utility {
         Integer count=null;
         try {
             Path pt=new Path(DATA_OUTPUT_POSTCOUNT);//Location of file in HDFS
-            FileSystem fs = FileSystem.get(new Configuration());
-            BufferedReader reader=new BufferedReader(new InputStreamReader(fs.open(pt)));
+            BufferedReader reader=new BufferedReader(new InputStreamReader(hdfs.open(pt)));
             String line = reader.readLine();
 
             while (line != null) {
@@ -47,8 +46,7 @@ public class Utility {
         Integer count=null;
         try {
             Path pt=new Path(DATA_OUTPUT_DOCUMENTFREQUENCY);//Location of file in HDFS
-            FileSystem fs = FileSystem.get(new Configuration());
-            BufferedReader reader=new BufferedReader(new InputStreamReader(fs.open(pt)));
+            BufferedReader reader=new BufferedReader(new InputStreamReader(hdfs.open(pt)));
             String line = reader.readLine();
 
             while (line != null) {
@@ -75,8 +73,7 @@ public class Utility {
         Integer count=null;
         try {
             Path pt=new Path(DATA_OUTPUT_WORDCOUNT);//Location of file in HDFS
-            FileSystem fs = FileSystem.get(new Configuration());
-            BufferedReader reader=new BufferedReader(new InputStreamReader(fs.open(pt)));
+            BufferedReader reader=new BufferedReader(new InputStreamReader(hdfs.open(pt)));
             String line = reader.readLine();
 
             while (line != null) {
