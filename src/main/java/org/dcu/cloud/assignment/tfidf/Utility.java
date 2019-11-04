@@ -20,9 +20,9 @@ public class Utility {
             String line = reader.readLine();
 
             while (line != null) {
-                String user=line.split("//s+")[0];
+                String user=line.split("\\s+")[0];
                 if(userId.equalsIgnoreCase(user.trim())){
-                    String countStr=line.split("//s+")[1];
+                    String countStr=line.split("\\s+")[1];
                     count= Integer.valueOf(countStr.trim());
                     System.out.println("UserId:"+user+" Count:"+count);
                 }
