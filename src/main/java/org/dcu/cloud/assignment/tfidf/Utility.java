@@ -32,7 +32,6 @@ public class Utility {
                 if(userId.equalsIgnoreCase(user.trim())){
                     String countStr=line.split("\\s+")[1];
                     count= Integer.valueOf(countStr.trim());
-                    System.out.println("UserId:"+user+" Count:"+count);
                     break;
                 }
                 line = reader.readLine();
@@ -57,7 +56,6 @@ public class Utility {
                 if(userId.equalsIgnoreCase(userStr.trim()) && word.equalsIgnoreCase(wordStr.trim())){
                     String countStr=line.split("\\s+")[1];
                     count= Integer.valueOf(countStr.trim());
-                    System.out.println("UserId:"+userStr+" Word:"+wordStr+" Count:"+count);
                     break;
                 }
                 line = reader.readLine();

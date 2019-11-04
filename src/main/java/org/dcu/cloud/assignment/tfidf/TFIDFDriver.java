@@ -4,12 +4,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -32,6 +30,7 @@ public class TFIDFDriver extends Configured implements Tool {
 
     public int run(String[] args) throws Exception {
         int returnCode;
+
         returnCode=this.bodyCountingJob();
         returnCode=this.wordFrequencyJob();
         returnCode=this.docFrequencyJob();
@@ -47,7 +46,7 @@ public class TFIDFDriver extends Configured implements Tool {
 
         tfidfCalculator.setJarByClass(TFIDFDriver.class);
         tfidfCalculator.setMapperClass(TFIDFMapper.class);
-        tfidfCalculator.setReducerClass(TFIDFWeightReducer.class);
+        tfidfCalculator.setReducerClass(TFIDFTop10TermsPerUserReducer.class);
         tfidfCalculator.setMapOutputKeyClass(Text.class);
         tfidfCalculator.setMapOutputValueClass(DoubleWritable.class);
         tfidfCalculator.setOutputKeyClass(Text.class);
