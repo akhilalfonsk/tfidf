@@ -32,11 +32,10 @@ public class TFIDFDriver extends Configured implements Tool {
 
     public int run(String[] args) throws Exception {
         int returnCode;
-       /* returnCode=this.bodyCountingJob();
+        returnCode=this.bodyCountingJob();
         returnCode=this.wordFrequencyJob();
-        returnCode=this.docFrequencyJob();*/
+        returnCode=this.docFrequencyJob();
 
-        //Utility.init();
         Configuration conf = new Configuration();
         Job tfidfCalculator = Job.getInstance(conf, "TFIDFCalculator");
 
@@ -63,7 +62,6 @@ public class TFIDFDriver extends Configured implements Tool {
             hdfs.delete(new Path(perUserTFIDF), true);
 
         returnCode=tfidfCalculator.waitForCompletion(true) ? 0 : 1;
-       // Utility.getFrequencyOfThisWord(conf);
         return returnCode;
     }
 

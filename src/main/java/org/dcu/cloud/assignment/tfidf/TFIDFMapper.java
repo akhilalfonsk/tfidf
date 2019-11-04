@@ -26,15 +26,10 @@ public class TFIDFMapper extends Mapper<LongWritable, Text, Text, DoubleWritable
             String userId=linePartFirst.split("-")[0].trim();
             String word=linePartFirst.split("-")[3].trim();
             String totalWordsInDocStr=linePartFirst.split("-")[2].trim();
+
             int totalWordsInThisPost=Integer.valueOf(totalWordsInDocStr);
             int totalPostByUser=Utility.getTotalPostByUser(con.getLocalCacheFiles(),userId);
             int frequencyOfThisWordAcrossWholePostsByUser=Utility.getFrequencyOfThisWordAcrossWholePostsByUser(con.getLocalCacheFiles(),userId,word);
-
-            //int totalPostByUser=200;
-                    //getTotalPostByUser(con.getConfiguration(),userId);
-            //int frequencyOfThisWordAcrossWholePostsByUser=15;
-                    //getFrequencyOfThisWordAcrossWholePostsByUser(con.getConfiguration(),userId,word);
-
             int wordCountInThisPost=Integer.valueOf(linePartSecond);
             double tfIdfForThisWordInThisDocument=calculateTFIDFForCurrentWordWrtDocument(wordCountInThisPost,totalWordsInThisPost,frequencyOfThisWordAcrossWholePostsByUser,totalPostByUser);
 
@@ -42,11 +37,9 @@ public class TFIDFMapper extends Mapper<LongWritable, Text, Text, DoubleWritable
             DoubleWritable outputValue = new DoubleWritable(tfIdfForThisWordInThisDocument);
             con.write(outputKey, outputValue);
         } catch (Exception e) {
-           // System.out.println("Error in Line:"+e.getMessage());
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             con.write(new Text(sw.toString()), new DoubleWritable(0.0D));
-           // e.printStackTrace();
         }
     }
     private double calculateTFIDFForCurrentWordWrtDocument(int wordCountInThisPost,int totalWordsInThisPost,int frequencyOfThisWordAcrossWholePostsByUser,int totalPostByUser){
