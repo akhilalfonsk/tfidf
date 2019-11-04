@@ -29,8 +29,8 @@ public class TFIDFMapper extends Mapper<LongWritable, Text, Text, DoubleWritable
         }
     }
     private double calculateTFIDFForCurrentWordWrtDocument(int wordCountInThisPost,int totalWordsInThisPost,int frequencyOfThisWordAcrossWholePostsByUser,int totalPostByUser){
-        double termFrequency=wordCountInThisPost/totalWordsInThisPost;
-        double inverseDocumentFrequency=Math.log(totalPostByUser/frequencyOfThisWordAcrossWholePostsByUser);
+        double termFrequency=(double) wordCountInThisPost/(double) totalWordsInThisPost;
+        double inverseDocumentFrequency=Math.log((double) totalPostByUser/(double) frequencyOfThisWordAcrossWholePostsByUser);
         double tfIdfForThisWordInThisDocument=termFrequency*inverseDocumentFrequency;
         return tfIdfForThisWordInThisDocument;
     }
