@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
@@ -15,6 +16,9 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+
+import static org.dcu.cloud.assignment.tfidf.Utility.DATA_OUTPUT_DOCUMENTFREQUENCY;
+import static org.dcu.cloud.assignment.tfidf.Utility.DATA_OUTPUT_POSTCOUNT;
 
 public class TFIDFDriver extends Configured implements Tool {
     private static final Log log = LogFactory.getLog(TFIDFDriver.class);
@@ -42,8 +46,8 @@ public class TFIDFDriver extends Configured implements Tool {
         tfidfCalculator.setOutputKeyClass(Text.class);
         tfidfCalculator.setOutputValueClass(Text.class);
         tfidfCalculator.setNumReduceTasks(1);
-        Utility.getAllFrequencyOfThisWordAcrossWholePostsByUser(conf);
-        Utility.getAllTotalPostByUser(conf);
+        DistributedCache.addCacheFile(new Path(DATA_OUTPUT_DOCUMENTFREQUENCY).toUri(), tfidfCalculator.getConfiguration());
+        DistributedCache.addCacheFile(new Path(DATA_OUTPUT_POSTCOUNT).toUri(), tfidfCalculator.getConfiguration());
         FileInputFormat.addInputPath(tfidfCalculator, new Path(postWordCountPerDocOutPut));
         FileOutputFormat.setOutputPath(tfidfCalculator, new Path(perUserTFIDF));
 
