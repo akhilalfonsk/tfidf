@@ -25,8 +25,8 @@ public class TFIDFTop10TermsPerUserReducer extends Reducer<Text, DoubleWritable,
         //String newResultRow=key.toString()+","+df.format(totalTfIdfForThisWord)+",";
         String userId=key.toString().split("-")[0].trim();
         String word=key.toString().split("-")[1].trim();
-        //updateTop10TermCollectionForUser(userId,word,totalTfIdfForThisWord);
-        con.write(key, new DoubleWritable(totalTfIdfForThisWord.doubleValue()));
+        updateTop10TermCollectionForUser(userId,word,totalTfIdfForThisWord);
+        //con.write(key, new DoubleWritable(totalTfIdfForThisWord.doubleValue()));
     }
 
     private void updateTop10TermCollectionForUser(String userId,String word,BigDecimal totalTfIdfForThisWord){
