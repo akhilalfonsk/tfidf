@@ -14,10 +14,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 public class TFIDFDriver extends Configured implements Tool {
     private static final Log log = LogFactory.getLog(TFIDFDriver.class);
 
@@ -50,6 +46,7 @@ public class TFIDFDriver extends Configured implements Tool {
 */
         Configuration conf = new Configuration();
         Utility.getDocumentCountPerUser(conf,"89904");
+        Utility.getDocumentFrequencyForWord(conf,"9951","with");
         return returnCode;
     }
 
