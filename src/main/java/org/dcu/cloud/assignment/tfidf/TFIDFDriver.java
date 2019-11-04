@@ -121,7 +121,7 @@ public class TFIDFDriver extends Configured implements Tool {
     public void getDocumentCountPerUser(Configuration conf) throws Exception{
         FileSystem hdfs = FileSystem.get(conf);
         try {
-            Path pt=new Path("hdfs:/data/output/postcount/part-r-00000");//Location of file in HDFS
+            Path pt=new Path("data/output/postcount/part-r-00000");//Location of file in HDFS
             FileSystem fs = FileSystem.get(new Configuration());
             BufferedReader reader=new BufferedReader(new InputStreamReader(fs.open(pt)));
             String line = reader.readLine();
