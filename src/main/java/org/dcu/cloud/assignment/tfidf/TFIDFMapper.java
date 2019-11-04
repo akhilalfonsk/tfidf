@@ -30,8 +30,10 @@ public class TFIDFMapper extends Mapper<LongWritable, Text, Text, DoubleWritable
             //int totalPostByUser=Utility.getTotalPostByUser(con.getLocalCacheFiles(),userId);
             //int frequencyOfThisWordAcrossWholePostsByUser=Utility.getFrequencyOfThisWordAcrossWholePostsByUser(con.getLocalCacheFiles(),userId,word);
 
-            int totalPostByUser=getTotalPostByUser(con.getConfiguration(),userId);
-            int frequencyOfThisWordAcrossWholePostsByUser=getFrequencyOfThisWordAcrossWholePostsByUser(con.getConfiguration(),userId,word);
+            int totalPostByUser=10;
+                    //getTotalPostByUser(con.getConfiguration(),userId);
+            int frequencyOfThisWordAcrossWholePostsByUser=10;
+                    //getFrequencyOfThisWordAcrossWholePostsByUser(con.getConfiguration(),userId,word);
 
             int wordCountInThisPost=Integer.valueOf(linePartSecond);
             double tfIdfForThisWordInThisDocument=calculateTFIDFForCurrentWordWrtDocument(wordCountInThisPost,totalWordsInThisPost,frequencyOfThisWordAcrossWholePostsByUser,totalPostByUser);
