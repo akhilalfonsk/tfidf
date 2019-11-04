@@ -16,7 +16,9 @@ import java.util.Map;
 public class Utility {
 
     public static final String DATA_OUTPUT_DOCUMENTFREQUENCY = "data/output/documentfrequency/part-r-00000";
+    public static final String DATA_OUTPUT_DOCUMENTFREQUENCY_RM= "data/output/documentfrequency/dfresult";
     public static final String DATA_OUTPUT_POSTCOUNT = "data/output/postcount/part-r-00000";
+    public static final String DATA_OUTPUT_POSTCOUNT_RM = "data/output/postcount/pcresult";
     public static final String DATA_OUTPUT_WORDCOUNT = "data/output/wordcountperdoc/part-r-00000";
     public static final Map<String,String> documentFrequency=new HashMap<>();
     public static final Map<String,String> postCount=new HashMap<>();

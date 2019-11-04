@@ -17,8 +17,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-import static org.dcu.cloud.assignment.tfidf.Utility.DATA_OUTPUT_DOCUMENTFREQUENCY;
-import static org.dcu.cloud.assignment.tfidf.Utility.DATA_OUTPUT_POSTCOUNT;
+import static org.dcu.cloud.assignment.tfidf.Utility.*;
 
 public class TFIDFDriver extends Configured implements Tool {
     private static final Log log = LogFactory.getLog(TFIDFDriver.class);
@@ -40,6 +39,13 @@ public class TFIDFDriver extends Configured implements Tool {
         //Utility.init();
         Configuration conf = new Configuration();
         Job tfidfCalculator = Job.getInstance(conf, "TFIDFCalculator");
+
+        FileSystem hdfs = FileSystem.get(conf);
+        if (hdfs.exists(new Path(DATA_OUTPUT_DOCUMENTFREQUENCY)))
+            hdfs.rename(new Path(DATA_OUTPUT_DOCUMENTFREQUENCY), new Path(DATA_OUTPUT_DOCUMENTFREQUENCY_RM));
+        if (hdfs.exists(new Path(DATA_OUTPUT_POSTCOUNT)))
+            hdfs.rename(new Path(DATA_OUTPUT_POSTCOUNT), new Path(DATA_OUTPUT_POSTCOUNT_RM));
+
         tfidfCalculator.setJarByClass(TFIDFDriver.class);
         tfidfCalculator.setMapperClass(TFIDFMapper.class);
         tfidfCalculator.setReducerClass(TFIDFWeightReducer.class);
@@ -53,7 +59,6 @@ public class TFIDFDriver extends Configured implements Tool {
         FileInputFormat.addInputPath(tfidfCalculator, new Path(postWordCountPerDocOutPut));
         FileOutputFormat.setOutputPath(tfidfCalculator, new Path(perUserTFIDF));
 
-        FileSystem hdfs = FileSystem.get(conf);
         if (hdfs.exists(new Path(perUserTFIDF)))
             hdfs.delete(new Path(perUserTFIDF), true);
 
