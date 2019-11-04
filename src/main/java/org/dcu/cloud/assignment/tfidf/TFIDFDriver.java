@@ -11,12 +11,10 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -51,7 +49,7 @@ public class TFIDFDriver extends Configured implements Tool {
             hdfs.delete(new Path(postCountPath), true);
 */
         Configuration conf = new Configuration();
-        this.getDocumentCountPerUser(conf);
+        Utility.getDocumentCountPerUser(conf,"89904");
         return returnCode;
     }
 
@@ -64,8 +62,8 @@ public class TFIDFDriver extends Configured implements Tool {
         Configuration conf = new Configuration();
         Job bodyCounterJob = Job.getInstance(conf, "BodyCounterJob");
         bodyCounterJob.setJarByClass(TFIDFDriver.class);
-        bodyCounterJob.setMapperClass(BodyCounterMapper.class);
-        bodyCounterJob.setReducerClass(BodyCounterReducer.class);
+        bodyCounterJob.setMapperClass(DocumentCounterMapper.class);
+        bodyCounterJob.setReducerClass(DocumentCounterReducer.class);
         bodyCounterJob.setOutputKeyClass(Text.class);
         bodyCounterJob.setOutputValueClass(IntWritable.class);
         bodyCounterJob.setNumReduceTasks(1);
@@ -83,8 +81,8 @@ public class TFIDFDriver extends Configured implements Tool {
         Configuration conf = new Configuration();
         Job wordFrequencyCounterJob = Job.getInstance(conf, "WordFrequencyCounterJob");
         wordFrequencyCounterJob.setJarByClass(TFIDFDriver.class);
-        wordFrequencyCounterJob.setMapperClass(BodyToTokenMapper.class);
-        wordFrequencyCounterJob.setReducerClass(TokenToFrequencyReducer.class);
+        wordFrequencyCounterJob.setMapperClass(WordFrequencyMapper.class);
+        wordFrequencyCounterJob.setReducerClass(WordFrequencyReducer.class);
         wordFrequencyCounterJob.setOutputKeyClass(Text.class);
         wordFrequencyCounterJob.setOutputValueClass(IntWritable.class);
         wordFrequencyCounterJob.setNumReduceTasks(1);
@@ -118,21 +116,4 @@ public class TFIDFDriver extends Configured implements Tool {
         return(docFrequencyCounterJob.waitForCompletion(true) ? 0 : 1);
     }
 
-    public void getDocumentCountPerUser(Configuration conf) throws Exception{
-        FileSystem hdfs = FileSystem.get(conf);
-        try {
-            Path pt=new Path("data/output/postcount/part-r-00000");//Location of file in HDFS
-            FileSystem fs = FileSystem.get(new Configuration());
-            BufferedReader reader=new BufferedReader(new InputStreamReader(fs.open(pt)));
-            String line = reader.readLine();
-            while (line != null) {
-                System.out.println(line);
-                // read next line
-                line = reader.readLine();
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

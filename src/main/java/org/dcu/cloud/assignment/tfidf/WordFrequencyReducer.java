@@ -6,7 +6,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class BodyCounterReducer extends Reducer<Text, IntWritable, Text, IntWritable>{
+public class WordFrequencyReducer extends Reducer<Text, IntWritable, Text, IntWritable>{
 
     @Override
     protected void reduce(Text key, Iterable<IntWritable> values,  Context con) throws IOException, InterruptedException

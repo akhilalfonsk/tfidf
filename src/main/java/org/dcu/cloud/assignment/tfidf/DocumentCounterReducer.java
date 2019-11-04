@@ -6,7 +6,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class TokenToFrequencyReducer extends Reducer<Text, IntWritable, Text, IntWritable>{
+public class DocumentCounterReducer extends Reducer<Text, IntWritable, Text, IntWritable>{
 
     @Override
     protected void reduce(Text key, Iterable<IntWritable> values,  Context con) throws IOException, InterruptedException
