@@ -21,13 +21,40 @@ public class TFIDFDriver extends Configured implements Tool {
     private static final String documentCollectionInput="data/topuserpost.csv";
     private static final String postCountPath="data/output/postcount";
     private static final String postWordCountPerDoc="data/output/wordcountperdoc";
-    private static final String postWordFrequencyAcrossDoc="data/output/wordfrequency";
+    private static final String postDocumentFrequency="data/output/documentfrequency";
     private static final String topUserTFIDF="data/output/tfidf";
 
 
     public int run(String[] args) throws Exception {
-        Configuration conf = new Configuration();
+        int returnCode=this.bodyCountingJob();
+        returnCode=this.wordFrequencyJob();
+        returnCode=this.docFrequencyJob();
 
+        /*Configuration conf = new Configuration();
+        Job bodyCounterJob = Job.getInstance(conf, "TFIDFCalculator");
+        bodyCounterJob.setJarByClass(TFIDFDriver.class);
+        bodyCounterJob.setMapperClass(BodyCounterMapper.class);
+        bodyCounterJob.setReducerClass(BodyCounterReducer.class);
+        bodyCounterJob.setOutputKeyClass(Text.class);
+        bodyCounterJob.setOutputValueClass(IntWritable.class);
+        bodyCounterJob.setNumReduceTasks(1);
+        FileInputFormat.addInputPath(bodyCounterJob, new Path(documentCollectionInput));
+        FileOutputFormat.setOutputPath(bodyCounterJob, new Path(postCountPath));
+
+        FileSystem hdfs = FileSystem.get(conf);
+        if (hdfs.exists(new Path(postCountPath)))
+            hdfs.delete(new Path(postCountPath), true);
+*/
+        return returnCode;
+    }
+
+    public static void main(String[] args) throws Exception{
+        int exitCode = ToolRunner.run(new TFIDFDriver(), args);
+        System.exit(exitCode);
+    }
+
+    public int bodyCountingJob() throws Exception{
+        Configuration conf = new Configuration();
         Job bodyCounterJob = Job.getInstance(conf, "BodyCounterJob");
         bodyCounterJob.setJarByClass(TFIDFDriver.class);
         bodyCounterJob.setMapperClass(BodyCounterMapper.class);
@@ -42,16 +69,8 @@ public class TFIDFDriver extends Configured implements Tool {
         if (hdfs.exists(new Path(postCountPath)))
             hdfs.delete(new Path(postCountPath), true);
 
-        int returnCode=bodyCounterJob.waitForCompletion(true) ? 0 : 1;
-        returnCode=wordFrequencyJob();
-        return returnCode;
+        return bodyCounterJob.waitForCompletion(true) ? 0 : 1;
     }
-
-    public static void main(String[] args) throws Exception{
-        int exitCode = ToolRunner.run(new TFIDFDriver(), args);
-        System.exit(exitCode);
-    }
-
     public int wordFrequencyJob() throws Exception{
 
         Configuration conf = new Configuration();
@@ -70,5 +89,25 @@ public class TFIDFDriver extends Configured implements Tool {
             hdfs.delete(new Path(postWordCountPerDoc), true);
 
         return(wordFrequencyCounterJob.waitForCompletion(true) ? 0 : 1);
+    }
+
+    public int docFrequencyJob() throws Exception{
+
+        Configuration conf = new Configuration();
+        Job docFrequencyCounterJob = Job.getInstance(conf, "DocFrequencyCounterJob");
+        docFrequencyCounterJob.setJarByClass(TFIDFDriver.class);
+        docFrequencyCounterJob.setMapperClass(DocumentFrequencyMapper.class);
+        docFrequencyCounterJob.setReducerClass(DocumentFrequencyReducer.class);
+        docFrequencyCounterJob.setOutputKeyClass(Text.class);
+        docFrequencyCounterJob.setOutputValueClass(IntWritable.class);
+        docFrequencyCounterJob.setNumReduceTasks(1);
+        FileInputFormat.addInputPath(docFrequencyCounterJob, new Path(documentCollectionInput));
+        FileOutputFormat.setOutputPath(docFrequencyCounterJob, new Path(postDocumentFrequency));
+
+        FileSystem hdfs = FileSystem.get(conf);
+        if (hdfs.exists(new Path(postDocumentFrequency)))
+            hdfs.delete(new Path(postDocumentFrequency), true);
+
+        return(docFrequencyCounterJob.waitForCompletion(true) ? 0 : 1);
     }
 }
