@@ -5,7 +5,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
-public class TFIDFMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
+public class TFIDFMapper extends Mapper<LongWritable, Text, Text, DoubleWritable>{
     public void map(LongWritable key, Text value, Context con) throws IOException, InterruptedException {
         try{
             String line = value.toString();
@@ -20,9 +20,9 @@ public class TFIDFMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
             int wordCountInThisPost=Integer.valueOf(linePartSecond);
             double tfIdfForThisWordInThisDocument=calculateTFIDFForCurrentWordWrtDocument(wordCountInThisPost,totalWordsInThisPost,frequencyOfThisWordAcrossWholePostsByUser,totalPostByUser);
 
-            Text outputKey = new Text(userId+"-"+word);
+            Text outputKey = new Text(userId+","+word+",");
             DoubleWritable outputValue = new DoubleWritable(tfIdfForThisWordInThisDocument);
-            con.write(outputKey, new IntWritable(1));
+            con.write(outputKey, outputValue);
         } catch (Exception e) {
             System.out.println("Error in Line:"+e.getMessage());
             e.printStackTrace();
