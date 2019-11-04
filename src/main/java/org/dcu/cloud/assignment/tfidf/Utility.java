@@ -13,7 +13,7 @@ public class Utility {
     public static final String DATA_OUTPUT_DOCUMENTFREQUENCY = "data/output/documentfrequency/part-r-00000";
     public static final String DATA_OUTPUT_POSTCOUNT = "data/output/postcount/part-r-00000";
 
-    public static Integer getDocumentCountPerUser(Configuration conf, String userId) throws Exception{
+    public static Integer getTotalPostByUser(Configuration conf, String userId) throws Exception{
         FileSystem hdfs = FileSystem.get(conf);
         Integer count=null;
         try {
@@ -38,7 +38,7 @@ public class Utility {
         return count;
     }
 
-    public static Integer getDocumentFrequencyForWord(Configuration conf,String userId,String word) throws Exception{
+    public static Integer getFrequencyOfThisWordAcrossWholePostsByUser(Configuration conf, String userId, String word) throws Exception{
         FileSystem hdfs = FileSystem.get(conf);
         Integer count=null;
         try {

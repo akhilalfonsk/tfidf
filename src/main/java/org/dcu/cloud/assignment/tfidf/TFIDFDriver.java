@@ -21,7 +21,8 @@ public class TFIDFDriver extends Configured implements Tool {
     private static final String postCountPath="data/output/postcount";
     private static final String postWordCountPerDoc="data/output/wordcountperdoc";
     private static final String postDocumentFrequency="data/output/documentfrequency";
-    private static final String topUserTFIDF="data/output/tfidf";
+    private static final String perUserTFIDF="data/output/tfidf";
+    private static final String postWordCountPerDocOutPut="data/output/wordcountperdoc/part-r-00000";
 
 
     public int run(String[] args) throws Exception {
@@ -29,24 +30,22 @@ public class TFIDFDriver extends Configured implements Tool {
         returnCode=this.wordFrequencyJob();
         returnCode=this.docFrequencyJob();
 
-        /*Configuration conf = new Configuration();
-        Job bodyCounterJob = Job.getInstance(conf, "TFIDFCalculator");
-        bodyCounterJob.setJarByClass(TFIDFDriver.class);
-        bodyCounterJob.setMapperClass(BodyCounterMapper.class);
-        bodyCounterJob.setReducerClass(BodyCounterReducer.class);
-        bodyCounterJob.setOutputKeyClass(Text.class);
-        bodyCounterJob.setOutputValueClass(IntWritable.class);
-        bodyCounterJob.setNumReduceTasks(1);
-        FileInputFormat.addInputPath(bodyCounterJob, new Path(documentCollectionInput));
-        FileOutputFormat.setOutputPath(bodyCounterJob, new Path(postCountPath));
+        Configuration conf = new Configuration();
+        Job tfidfCalculator = Job.getInstance(conf, "TFIDFCalculator");
+        tfidfCalculator.setJarByClass(TFIDFDriver.class);
+        tfidfCalculator.setMapperClass(TFIDFMapper.class);
+        tfidfCalculator.setReducerClass(TFIDFWeightReducer.class);
+        tfidfCalculator.setOutputKeyClass(Text.class);
+        tfidfCalculator.setOutputValueClass(IntWritable.class);
+        tfidfCalculator.setNumReduceTasks(1);
+        FileInputFormat.addInputPath(tfidfCalculator, new Path(postWordCountPerDocOutPut));
+        FileOutputFormat.setOutputPath(tfidfCalculator, new Path(perUserTFIDF));
 
         FileSystem hdfs = FileSystem.get(conf);
-        if (hdfs.exists(new Path(postCountPath)))
-            hdfs.delete(new Path(postCountPath), true);
-*/
-        Configuration conf = new Configuration();
-        Utility.getDocumentCountPerUser(conf,"89904");
-        Utility.getDocumentFrequencyForWord(conf,"9951","with");
+        if (hdfs.exists(new Path(perUserTFIDF)))
+            hdfs.delete(new Path(perUserTFIDF), true);
+
+        returnCode=tfidfCalculator.waitForCompletion(true) ? 0 : 1;
         return returnCode;
     }
 
