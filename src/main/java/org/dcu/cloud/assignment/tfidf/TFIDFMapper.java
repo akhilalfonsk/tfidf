@@ -45,6 +45,7 @@ public class TFIDFMapper extends Mapper<LongWritable, Text, Text, DoubleWritable
             con.write(outputKey, outputValue);
         } catch (Exception e) {
             System.out.println("Error in Line:"+e.getMessage());
+            con.write(new Text(e.getMessage()), new DoubleWritable(0.0D));
             e.printStackTrace();
         }
     }
