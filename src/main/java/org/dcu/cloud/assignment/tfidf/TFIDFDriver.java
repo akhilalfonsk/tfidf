@@ -36,6 +36,7 @@ public class TFIDFDriver extends Configured implements Tool {
         returnCode=this.wordFrequencyJob();
         returnCode=this.docFrequencyJob();
 
+        Utility.init();
         Configuration conf = new Configuration();
         Job tfidfCalculator = Job.getInstance(conf, "TFIDFCalculator");
         tfidfCalculator.setJarByClass(TFIDFDriver.class);
