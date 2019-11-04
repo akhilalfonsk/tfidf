@@ -8,14 +8,11 @@ import java.io.IOException;
 public class TFIDFMapper extends Mapper<LongWritable, Text, Text, DoubleWritable>{
     public void map(LongWritable key, Text value, Context con) throws IOException, InterruptedException {
         try{
-
             String line = value.toString();
-            System.out.println("Processing Line:"+line);
             String linePartFirst=line.split("\\s+")[0].trim();
             String linePartSecond=line.split("\\s+")[1].trim();
             String userId=linePartFirst.split("-")[0].trim();
             String word=linePartFirst.split("-")[3].trim();
-            System.out.println("UserID:"+userId);
             String totalWordsInDocStr=linePartFirst.split("-")[2].trim();
             int totalWordsInThisPost=Integer.valueOf(totalWordsInDocStr);
             int totalPostByUser=Utility.getTotalPostByUser(con.getConfiguration(),userId);

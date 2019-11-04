@@ -31,7 +31,7 @@ public class TFIDFDriver extends Configured implements Tool {
         returnCode=this.docFrequencyJob();
 
         Configuration conf = new Configuration();
-        Job tfidfCalculator = Job.getInstance(conf, "TFIDFCalculator");
+ /*       Job tfidfCalculator = Job.getInstance(conf, "TFIDFCalculator");
         tfidfCalculator.setJarByClass(TFIDFDriver.class);
         tfidfCalculator.setMapperClass(TFIDFMapper.class);
         tfidfCalculator.setReducerClass(TFIDFWeightReducer.class);
@@ -46,6 +46,8 @@ public class TFIDFDriver extends Configured implements Tool {
             hdfs.delete(new Path(perUserTFIDF), true);
 
         returnCode=tfidfCalculator.waitForCompletion(true) ? 0 : 1;
+ */
+        Utility.getFrequencyOfThisWord(conf);
         return returnCode;
     }
 
