@@ -15,9 +15,9 @@ public class TFIDFMapper extends Mapper<LongWritable, Text, Text, DoubleWritable
             String word=linePartFirst.split("-")[3].trim();
             String totalWordsInDocStr=linePartFirst.split("-")[2].trim();
             int totalWordsInThisPost=Integer.valueOf(totalWordsInDocStr);
-            int totalPostByUser=10;
+            int totalPostByUser=Integer.valueOf(con.getConfiguration().get(userId));
                     //Utility.getTotalPostByUser(con.getConfiguration(),userId);
-            int frequencyOfThisWordAcrossWholePostsByUser=10;
+            int frequencyOfThisWordAcrossWholePostsByUser=Integer.valueOf(con.getConfiguration().get(userId+"-"+word));
                     //Utility.getFrequencyOfThisWordAcrossWholePostsByUser(con.getConfiguration(),userId,word);
             int wordCountInThisPost=Integer.valueOf(linePartSecond);
             double tfIdfForThisWordInThisDocument=calculateTFIDFForCurrentWordWrtDocument(wordCountInThisPost,totalWordsInThisPost,frequencyOfThisWordAcrossWholePostsByUser,totalPostByUser);
