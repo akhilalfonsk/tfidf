@@ -46,8 +46,8 @@ public class TFIDFDriver extends Configured implements Tool {
         tfidfCalculator.setOutputKeyClass(Text.class);
         tfidfCalculator.setOutputValueClass(Text.class);
         tfidfCalculator.setNumReduceTasks(1);
-        DistributedCache.addCacheFile(new Path(DATA_OUTPUT_DOCUMENTFREQUENCY).toUri(), tfidfCalculator.getConfiguration());
-        DistributedCache.addCacheFile(new Path(DATA_OUTPUT_POSTCOUNT).toUri(), tfidfCalculator.getConfiguration());
+        tfidfCalculator.addCacheFile(new Path(DATA_OUTPUT_DOCUMENTFREQUENCY).toUri());
+        tfidfCalculator.addCacheFile(new Path(DATA_OUTPUT_POSTCOUNT).toUri());
         FileInputFormat.addInputPath(tfidfCalculator, new Path(postWordCountPerDocOutPut));
         FileOutputFormat.setOutputPath(tfidfCalculator, new Path(perUserTFIDF));
 
