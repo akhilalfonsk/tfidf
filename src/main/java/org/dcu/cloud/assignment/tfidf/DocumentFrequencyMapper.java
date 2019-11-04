@@ -21,7 +21,7 @@ public class DocumentFrequencyMapper extends Mapper<LongWritable, Text, Text, In
             for (String word :totalWords) {
                 word = word.trim();
                 if (!word.isEmpty() & word.length()>1) {
-                     uniqueWords.add(word);
+                     uniqueWords.add(word.toLowerCase());
                 }
             }
 
