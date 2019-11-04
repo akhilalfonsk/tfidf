@@ -7,6 +7,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 public class TFIDFWeightReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritable>{
@@ -15,12 +16,12 @@ public class TFIDFWeightReducer extends Reducer<Text, DoubleWritable, Text, Doub
     @Override
     protected void reduce(Text key, Iterable<DoubleWritable> values,  Context con) throws IOException, InterruptedException
     {
-        Double sum = 0.0D;
+        BigDecimal sum =BigDecimal.ZERO;
         for(DoubleWritable value : values)
         {
-            sum+=value.get();
+            sum=sum.add(BigDecimal.valueOf(value.get()));
         }
         //String newResultRow=key.toString()+","+df.format(sum)+",";
-        con.write(key, new DoubleWritable(sum));
+        con.write(key, new DoubleWritable(sum.doubleValue()));
     }
 }
