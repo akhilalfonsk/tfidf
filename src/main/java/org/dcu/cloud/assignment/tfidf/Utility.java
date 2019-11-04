@@ -37,6 +37,40 @@ public class Utility {
         return count;
     }
 
+    public static void getAllTotalPostByUser(Configuration conf) throws Exception{
+        FileSystem hdfs = FileSystem.get(conf);
+        try (BufferedReader reader=new BufferedReader(new InputStreamReader(hdfs.open(new Path(DATA_OUTPUT_POSTCOUNT))))){
+            String line = reader.readLine();
+            while (line != null) {
+                String user=line.split("\\s+")[0].trim();
+                String count=line.split("\\s+")[1].trim();
+                conf.set(user,count);
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Integer getAllFrequencyOfThisWordAcrossWholePostsByUser(Configuration conf) throws Exception{
+        FileSystem hdfs = FileSystem.get(conf);
+        Integer count=null;
+        try (BufferedReader reader=new BufferedReader(new InputStreamReader(hdfs.open(new Path(DATA_OUTPUT_DOCUMENTFREQUENCY))))){
+            String line = reader.readLine();
+            while (line != null) {
+                String userWord=line.split("\\s+")[0];
+                String userStr=userWord.split("-")[0].trim();
+                String wordStr=userWord.split("-")[1].trim();
+                String countStr=line.split("\\s+")[1].trim();
+                conf.set(userStr+"-"+wordStr,countStr);
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
     public static Integer getFrequencyOfThisWordAcrossWholePostsByUser(Configuration conf, String userId, String word) throws Exception{
         FileSystem hdfs = FileSystem.get(conf);
         Integer count=null;
