@@ -53,13 +53,7 @@ public class Utility {
     }
     public static Integer getTotalPostByUser(Path[] cacheFiles, String userId) throws Exception{
         Integer count=null;
-        Path requiredFile=null;
-        for(Path file: cacheFiles){
-            if(file.toString().contains("postcount")){
-                requiredFile=file;
-                break;
-            }
-        }
+        Path requiredFile=cacheFiles[1];
         try (BufferedReader reader=new BufferedReader(new FileReader(requiredFile.toString()))){
             String line = reader.readLine();
             while (line != null) {
@@ -142,13 +136,7 @@ public class Utility {
     public static Integer getFrequencyOfThisWordAcrossWholePostsByUser(Path[] cacheFiles, String userId, String word) throws Exception{
         Integer count=null;
 
-        Path requiredFile=null;
-        for(Path file: cacheFiles){
-            if(file.toString().contains("documentfrequency")){
-                requiredFile=file;
-                break;
-            }
-        }
+        Path requiredFile=cacheFiles[0];
 
         try (BufferedReader reader=new BufferedReader(new FileReader(requiredFile.toString()))){
             String line = reader.readLine();
