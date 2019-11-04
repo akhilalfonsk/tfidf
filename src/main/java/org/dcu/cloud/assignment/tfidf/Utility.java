@@ -28,6 +28,7 @@ public class Utility {
                     String countStr=line.split("\\s+")[1];
                     count= Integer.valueOf(countStr.trim());
                     System.out.println("UserId:"+user+" Count:"+count);
+                    break;
                 }
                 line = reader.readLine();
             }
@@ -55,6 +56,7 @@ public class Utility {
                     String countStr=line.split("\\s+")[1];
                     count= Integer.valueOf(countStr.trim());
                     System.out.println("UserId:"+userStr+" Word:"+wordStr+" Count:"+count);
+                    break;
                 }
                 line = reader.readLine();
             }
