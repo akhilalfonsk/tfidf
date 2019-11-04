@@ -32,11 +32,12 @@ public class TFIDFDriver extends Configured implements Tool {
 
 
     public int run(String[] args) throws Exception {
-        int returnCode=this.bodyCountingJob();
+        int returnCode;
+       /* returnCode=this.bodyCountingJob();
         returnCode=this.wordFrequencyJob();
-        returnCode=this.docFrequencyJob();
+        returnCode=this.docFrequencyJob();*/
 
-        Utility.init();
+        //Utility.init();
         Configuration conf = new Configuration();
         Job tfidfCalculator = Job.getInstance(conf, "TFIDFCalculator");
         tfidfCalculator.setJarByClass(TFIDFDriver.class);
