@@ -9,14 +9,14 @@ import org.apache.hadoop.mapreduce.Reducer;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
-public class TFIDFWeightReducer extends Reducer<Text, DoubleWritable, Text, IntWritable>{
+public class TFIDFWeightReducer extends Reducer<Text, IntWritable, Text, IntWritable>{
     private DecimalFormat df = new DecimalFormat("###.########");
 
     @Override
-    protected void reduce(Text key, Iterable<DoubleWritable> values,  Context con) throws IOException, InterruptedException
+    protected void reduce(Text key, Iterable<IntWritable> values,  Context con) throws IOException, InterruptedException
     {
         Double sum = 0.0D;
-        for(DoubleWritable value : values)
+        for(IntWritable value : values)
         {
             sum+=value.get();
         }
