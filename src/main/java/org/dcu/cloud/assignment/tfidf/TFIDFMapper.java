@@ -8,9 +8,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class TFIDFMapper extends Mapper<LongWritable, Text, Text, DoubleWritable>{
 
@@ -45,8 +43,10 @@ public class TFIDFMapper extends Mapper<LongWritable, Text, Text, DoubleWritable
             con.write(outputKey, outputValue);
         } catch (Exception e) {
            // System.out.println("Error in Line:"+e.getMessage());
-            con.write(new Text(e.getCause().getMessage()), new DoubleWritable(0.0D));
-            e.printStackTrace();
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            con.write(new Text(sw.toString()), new DoubleWritable(0.0D));
+           // e.printStackTrace();
         }
     }
     private double calculateTFIDFForCurrentWordWrtDocument(int wordCountInThisPost,int totalWordsInThisPost,int frequencyOfThisWordAcrossWholePostsByUser,int totalPostByUser){
