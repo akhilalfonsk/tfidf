@@ -46,7 +46,7 @@ public class TFIDFDriver extends Configured implements Tool {
         tfidfCalculator.setMapOutputKeyClass(Text.class);
         tfidfCalculator.setMapOutputValueClass(DoubleWritable.class);
         tfidfCalculator.setOutputKeyClass(Text.class);
-        tfidfCalculator.setOutputValueClass(Text.class);
+        tfidfCalculator.setOutputValueClass(DoubleWritable.class);
         tfidfCalculator.setNumReduceTasks(1);
         tfidfCalculator.addCacheFile(new Path(DATA_OUTPUT_DOCUMENTFREQUENCY).toUri());
         tfidfCalculator.addCacheFile(new Path(DATA_OUTPUT_POSTCOUNT).toUri());

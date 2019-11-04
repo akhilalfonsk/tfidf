@@ -9,7 +9,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
-public class TFIDFWeightReducer extends Reducer<Text, DoubleWritable, Text, Text>{
+public class TFIDFWeightReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritable>{
     private DecimalFormat df = new DecimalFormat("###.########");
 
     @Override
@@ -21,6 +21,6 @@ public class TFIDFWeightReducer extends Reducer<Text, DoubleWritable, Text, Text
             sum+=value.get();
         }
         //String newResultRow=key.toString()+","+df.format(sum)+",";
-        con.write(key, new Text(df.format(sum)));
+        con.write(key, new DoubleWritable(sum));
     }
 }
